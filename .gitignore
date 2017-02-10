@@ -5,8 +5,8 @@ config/console-local.php
 .env
 /bower_components/
 /node_modules/
-/web/static/
-/web/partial/
+/build/static/
+/build/partial/
 /.idea/
 /apidoc
 sd.sh

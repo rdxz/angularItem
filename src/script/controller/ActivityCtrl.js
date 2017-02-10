@@ -1,28 +1,48 @@
-angular.module('controllers', ['ngTagsInput'])
-    .controller('ActivityCtrl', [
-        '$scope',
-        '$route',
-        '$routeParams',
-        '$location',
-        '$mdDialog',
-        'lodash',
-        '$log',
-        function(
-            $scope,
-            $route,
-            $routeParams,
-            $location,
-            $mdDialog,
-            lodash,
-            $mdToast,
-            $log
-        ) {
+// angular
+//   .module('controllers', ['ngTagsInput'])
+//     .controller('ActivityCtrl', [
+//         '$scope',
+//         '$route',
+//         '$routeParams',
+//         '$location',
+//         '$mdDialog',
+//         'lodash',
+//         '$log',
+//         function(
+//             $scope,
+//             $route,
+//             $routeParams,
+//             $location,
+//             $mdDialog,
+//             lodash,
+//             $mdToast,
+//             $log
+//         ) {
 
+//           console.log(11);
+//           DemoCtrl();
+
+      // angular
+      // .module('controllers', ['ngMaterial'])
+      // .controller('ActivityCtrl', ActivityCtrl);
+
+
+ (function () {
+  angular
+      .module('controllers', ['ngMaterial'])
+      .controller('ActivityCtrl', ActivityCtrl);
+
+  function ActivityCtrl ($timeout, $q, $log) {
+     console.log(11);
     var self = this;
+
     self.simulateQuery = false;
     self.isDisabled    = false;
+
     // list of `state` value/display objects
     self.states        = loadAll();
+
+    // console.log(self.states);
     self.querySearch   = querySearch;
     self.selectedItemChange = selectedItemChange;
     self.searchTextChange   = searchTextChange;
@@ -92,6 +112,7 @@ angular.module('controllers', ['ngTagsInput'])
       };
 
     }
-
   }
-])
+})();
+
+
