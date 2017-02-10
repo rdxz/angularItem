@@ -13,26 +13,26 @@ var plumber = require('gulp-plumber');
 
 // 检查脚本
 gulp.task('lint', function() {
-  gulp.src('./client/script/*.js')
+  gulp.src('./src/script/*.js')
     .pipe(plumber())
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
 
 // 编译 sass
-gulp.task('sass', function() {
-  gulp.src(['./client/style/**/*.scss'])
-    .pipe(plumber())
-    .pipe(sass())
-    .pipe(gulp.dest('./web/static/style'));
-});
+// gulp.task('sass', function() {
+//   gulp.src(['./src/style/**/*.scss'])
+//     .pipe(plumber())
+//     .pipe(sass())
+//     .pipe(gulp.dest('./web/static/style'));
+// });
 
 gulp.task('copy-js-map', function(){
   gulp.src([
     './bower_components/angular-messages/angular-messages.min.js.map',
   ])
   .pipe(plumber())
-  .pipe(gulp.dest('./web/static/js'));
+  .pipe(gulp.dest('./build/static/js'));
 });
 
 gulp.task('copy-css-map', function(){
@@ -40,7 +40,7 @@ gulp.task('copy-css-map', function(){
     './bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css.map',
   ])
   .pipe(plumber())
-  .pipe(gulp.dest('./web/static/style'));
+  .pipe(gulp.dest('./build/static/style'));
 });
 
 gulp.task('copy-bundle', function(){
@@ -53,11 +53,11 @@ gulp.task('copy-bundle', function(){
     './bower_components/bootstrap/dist/css/bootstrap.min.css',
     './bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
     './bower_components/ng-table/dist/ng-table.min.css',
-    'client/style/font-awesome.min.css'
+    'src/style/font-awesome.min.css'
     ])
     .pipe(plumber())
    .pipe(concat('bundle.css'))
-   .pipe(gulp.dest('./web/static/style'));
+   .pipe(gulp.dest('./build/static/style'));
 
   gulp.src([
       './bower_components/jquery/dist/jquery.min.js',
@@ -85,51 +85,52 @@ gulp.task('copy-bundle', function(){
     ])
     .pipe(plumber())
     .pipe(concat('bundle.js'))
-    .pipe(gulp.dest('./web/static/js'));
+    .pipe(gulp.dest('./build/static/js'));
 });
 
 // gulp.task('copy-other', function() {
-//   gulp.src('./client/other/*')
+//   gulp.src('./src/other/*')
 //     .pipe(plumber())
 //     .pipe(gulp.dest('./web/static/other'));
 // });
 
 // gulp.task('copy-font', function() {
-//   gulp.src('./client/fonts/**/*')
+//   gulp.src('./src/fonts/**/*')
 //     .pipe(plumber())
 //     .pipe(gulp.dest('./web/static/fonts'));
 // });
 
 // gulp.task('copy-image', function() {
-//   gulp.src('./client/image/*')
+//   gulp.src('./src/image/*')
 //     .pipe(plumber())
 //     .pipe(gulp.dest('./web/static/image'));
 // });
 // gulp.task('copy-svg', function(){
-//   gulp.src('./client/svg/*')
+//   gulp.src('./src/svg/*')
 //     .pipe(plumber())
 //     .pipe(gulp.dest('./web/static/svg'));
 // })
 
+
 // 合并，压缩文件
 gulp.task('script', function(){
-  gulp.src('./script/**/*.js')
+  gulp.src('./src/script/**/*.js')
     .pipe(plumber())
     .pipe(concat('all.js'))
-    .pipe(gulp.dest('./web/static/js'))
+    .pipe(gulp.dest('./build/static/js'))
     .pipe(rename('all.min.js'))
     .pipe(uglify())
-    .pipe(gulp.dest('./web/static/js'))
+    .pipe(gulp.dest('./build/static/js'))
 });
 
 gulp.task('template', function(){
-  gulp.src('./partial/**/*.html')
+  gulp.src('./src/view/**/*.html')
     .pipe(plumber())
-    .pipe(gulp.dest('./web/partial'));
+    .pipe(gulp.dest('./build/view'));
 });
 
 gulp.task('clean:app', function(cb) {
-  del(['./web/static/*'], cb);
+  del(['./build/static/*'], cb);
 });
 
 // 默认任务
@@ -138,24 +139,24 @@ gulp.task('default', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch('./script/**/*.js', ['script']);
+  gulp.watch('./src/script/**/*.js', ['script']);
   gulp.watch('./style/**/*.scss', ['sass']);
   gulp.watch('./other/*', ['copy-other']);
   gulp.watch('./image/*', ['copy-image']);
   gulp.watch('./svg/*', ['copy-svg']);
-  gulp.watch('./partial/**/*.html', ['template']);
+  gulp.watch('./build/**/*.html', ['template']);
 });
 
 gulp.task('dist', [
   'clean:app',
   'lint',
-  'sass',
+  // 'sass',
   'script',
   'copy-bundle',
-  'copy-other',
-  'copy-image',
-  'copy-svg',
-  'copy-font',
+  // 'copy-other',
+  // 'copy-image',
+  // 'copy-svg',
+  // 'copy-font',
   'copy-js-map',
   'copy-css-map',
   'template'
