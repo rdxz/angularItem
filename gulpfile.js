@@ -13,6 +13,7 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var changed = require('gulp-changed');
 var plumber = require('gulp-plumber');
+var connect = require('gulp-connect');
 
 
 // 定义路径
@@ -33,7 +34,7 @@ gulp.task('lint', function() {
 
 // 启动服务
 gulp.task('serve', function() {
-    $.connect.server({
+    connect.server({
         root: [app.devPath],
         livereload: true,
         port: 8086
@@ -79,7 +80,7 @@ gulp.task('copy-bundle', function(){
     ])
     .pipe(plumber())
    .pipe(concat('bundle.css'))
-   .pipe(gulp.dest('./build/static/style'));
+   .pipe(gulp.dest(app.devPath + '/static/style'));
 
   gulp.src([
       './bower_components/jquery/dist/jquery.min.js',
@@ -107,7 +108,7 @@ gulp.task('copy-bundle', function(){
     ])
     .pipe(plumber())
     .pipe(concat('bundle.js'))
-    .pipe(gulp.dest(app.devPath + '/static/js'));
+    .pipe(gulp.dest(app.devPath + 'static/js'));
 });
 
 // gulp.task('copy-other', function() {
@@ -139,10 +140,10 @@ gulp.task('script', function(){
   gulp.src('./src/script/**/*.js')
     .pipe(plumber())
     .pipe(concat('all.js'))
-    .pipe(gulp.dest('./build/static/js'))
+    .pipe(gulp.dest(app.devPath + 'static/js'))
     .pipe(rename('all.min.js'))
     .pipe(uglify())
-    .pipe(gulp.dest('./build/static/js'))
+    .pipe(gulp.dest(app.devPath + 'static/js'))
 });
 
 gulp.task('template', function(){
