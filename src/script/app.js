@@ -60,4 +60,3 @@ angular.module('Services', []);
 //   //     return $location.path().indexOf(route) != -1;
 //   //   };
 //   }]);
-

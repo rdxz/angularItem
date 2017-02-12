@@ -32,15 +32,7 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('default'));
 });
 
-// 启动服务
-gulp.task('serve', function() {
-    connect.server({
-        root: [app.devPath],
-        livereload: true,
-        port: 8086
-    });
-    open("http://localhost:8086")
-})
+
 
 // 编译 sass
 // gulp.task('sass', function() {
@@ -146,6 +138,12 @@ gulp.task('script', function(){
     .pipe(gulp.dest(app.devPath + 'static/js'))
 });
 
+gulp.task('data',function(){
+    gulp.src('./src/data/*.json')
+    .pipe(plumber())
+    .pipe(gulp.dest('./build/data'))
+});
+
 gulp.task('template', function(){
   gulp.src('./src/view/**/*.html')
     .pipe(plumber())
@@ -163,17 +161,27 @@ gulp.task('default', function() {
 
 gulp.task('watch', function() {
   gulp.watch('./src/script/**/*.js', ['script']);
+  gulp.watch('./src/data/*.json', ['data']);
   gulp.watch('./style/**/*.scss', ['sass']);
   gulp.watch('./other/*', ['copy-other']);
   gulp.watch('./image/*', ['copy-image']);
   gulp.watch('./svg/*', ['copy-svg']);
-  gulp.watch('./build/**/*.html', ['template']);
+  gulp.watch('./src/**/*.html', ['template']);
 });
-
+// 启动服务
+gulp.task('serve', function() {
+    connect.server({
+        root: [app.devPath],
+        livereload: true,
+        port: 8086
+    });
+    open("http://localhost:8086")
+})
 gulp.task('dist', [
   'clean:app',
   'lint',
   'serve',
+  'data',
   // 'sass',
   'script',
   'copy-bundle',

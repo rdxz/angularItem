@@ -6,11 +6,16 @@ app.config(
                 .when('/activity', {
                     templateUrl: '/view/activity/index.html',
                     controller: 'ActivityCtrl'
-                })       
+                })
                 //新统计数据页面
-                .when('/data/view', {
-                    templateUrl: '/partial/data/view.html',
-                    controller: 'ActivityCtrl'
+                .when('/dashboard', {
+                    templateUrl: '/view/dashboard.html',
+                    controller: 'DashboardCtrl'
+                })
+                //新统计数据页面
+                .when('/member', {
+                    templateUrl: '/view/member/index.html',
+                    controller: 'MemberCtrl'
                 })
        }
  ]);
