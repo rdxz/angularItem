@@ -1,32 +1,3 @@
-// angular
-//   .module('controllers', ['ngTagsInput'])
-//     .controller('ActivityCtrl', [
-//         '$scope',
-//         '$route',
-//         '$routeParams',
-//         '$location',
-//         '$mdDialog',
-//         'lodash',
-//         '$log',
-//         function(
-//             $scope,
-//             $route,
-//             $routeParams,
-//             $location,
-//             $mdDialog,
-//             lodash,
-//             $mdToast,
-//             $log
-//         ) {
-
-//           console.log(11);
-//           DemoCtrl();
-
-      // angular
-      // .module('controllers', ['ngMaterial'])
-      // .controller('ActivityCtrl', ActivityCtrl);
-
-
  (function () {
   angular
       .module('controllers', ['ngMaterial'])
@@ -114,5 +85,3 @@
     }
   }
 })();
-
-
