@@ -2,6 +2,9 @@
 var gulp = require('gulp');
 var del = require('del');
 
+var $ = require('gulp-load-plugins');
+var open = require('open');
+
 // 引入组件
 var jshint = require('gulp-jshint');
 var sass = require('gulp-sass');
@@ -11,6 +14,15 @@ var rename = require('gulp-rename');
 var changed = require('gulp-changed');
 var plumber = require('gulp-plumber');
 
+
+// 定义路径
+var app = {
+    devPath:'build/',
+    distPath:'dist/',
+    srcPath:'src/',
+};
+
+// console.log(app.devPath);
 // 检查脚本
 gulp.task('lint', function() {
   gulp.src('./src/script/*.js')
@@ -18,6 +30,16 @@ gulp.task('lint', function() {
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
+
+// 启动服务
+gulp.task('serve', function() {
+    $.connect.server({
+        root: [app.devPath],
+        livereload: true,
+        port: 8086
+    });
+    open("http://localhost:8086")
+})
 
 // 编译 sass
 // gulp.task('sass', function() {
@@ -32,7 +54,7 @@ gulp.task('copy-js-map', function(){
     './bower_components/angular-messages/angular-messages.min.js.map',
   ])
   .pipe(plumber())
-  .pipe(gulp.dest('./build/static/js'));
+  .pipe(gulp.dest(app.devPath + '/static/js'));
 });
 
 gulp.task('copy-css-map', function(){
@@ -85,7 +107,7 @@ gulp.task('copy-bundle', function(){
     ])
     .pipe(plumber())
     .pipe(concat('bundle.js'))
-    .pipe(gulp.dest('./build/static/js'));
+    .pipe(gulp.dest(app.devPath + '/static/js'));
 });
 
 // gulp.task('copy-other', function() {
@@ -150,6 +172,7 @@ gulp.task('watch', function() {
 gulp.task('dist', [
   'clean:app',
   'lint',
+  'serve',
   // 'sass',
   'script',
   'copy-bundle',
