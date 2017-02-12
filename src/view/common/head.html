@@ -1,5 +1,4 @@
 <div class="nav">
-
 <nav class="navbar navbar-default">
 <div class="container-fluid">
 <!-- Brand and toggle get grouped for better mobile display -->
@@ -16,8 +15,8 @@
 <!-- Collect the nav links, forms, and other content for toggling -->
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
   <ul class="nav navbar-nav">
-    <li class="active"><a href="#/activity">Activity <span class="sr-only">(current)</span></a></li>
-    <li><a href="#/member">member</a></li>
+    <li  ng-class="{active:isActive('/activity')}" ><a href="#/activity">Activity <span class="sr-only">(current)</span></a></li>
+    <li ng-class="{active:isActive('/member')}" ><a href="#/member">member</a></li>
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
       <ul class="dropdown-menu">
