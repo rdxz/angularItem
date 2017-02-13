@@ -1,4 +1,4 @@
-angular.module('StarkApp').controller('DashboardCtrl', [
+angular.module('controllers').controller('DashboardCtrl', [
         '$scope',
         '$route',
         '$routeParams',

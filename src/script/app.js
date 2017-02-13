@@ -13,7 +13,7 @@ var app = angular.module('StarkApp', [
 ]);
 
 // // // init submodule
-angular.module('controllers', []);
+ angular.module('controllers', []);
 
 
 

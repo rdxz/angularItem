@@ -1,4 +1,4 @@
-angular.module('StarkApp').controller('MemberCtrl', [
+angular.module('controllers').controller('MemberCtrl', [
         '$scope',
         '$route',
         '$routeParams',

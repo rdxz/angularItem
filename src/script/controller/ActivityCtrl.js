@@ -1,4 +1,5 @@
-angular.module('StarkApp').controller('ActivityCtrl', [
+// var controllers =  angular.module('controllers', []);
+angular.module('controllers').controller('ActivityCtrl', [
     '$scope',
     '$route',
     '$routeParams',

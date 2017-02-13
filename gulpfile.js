@@ -14,7 +14,7 @@ var rename = require('gulp-rename');
 var changed = require('gulp-changed');
 var plumber = require('gulp-plumber');
 var connect = require('gulp-connect');
-
+var imagemin = require('gulp-imagemin');
 
 // 定义路径
 var app = {
@@ -23,7 +23,6 @@ var app = {
     srcPath:'src/',
 };
 
-// console.log(app.devPath);
 // 检查脚本
 gulp.task('lint', function() {
   gulp.src('./src/script/*.js')
@@ -31,16 +30,6 @@ gulp.task('lint', function() {
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
-
-
-
-// 编译 sass
-// gulp.task('sass', function() {
-//   gulp.src(['./src/style/**/*.scss'])
-//     .pipe(plumber())
-//     .pipe(sass())
-//     .pipe(gulp.dest('./web/static/style'));
-// });
 
 gulp.task('copy-js-map', function(){
   gulp.src([
@@ -103,30 +92,6 @@ gulp.task('copy-bundle', function(){
     .pipe(gulp.dest(app.devPath + 'static/js'));
 });
 
-// gulp.task('copy-other', function() {
-//   gulp.src('./src/other/*')
-//     .pipe(plumber())
-//     .pipe(gulp.dest('./web/static/other'));
-// });
-
-// gulp.task('copy-font', function() {
-//   gulp.src('./src/fonts/**/*')
-//     .pipe(plumber())
-//     .pipe(gulp.dest('./web/static/fonts'));
-// });
-
-// gulp.task('copy-image', function() {
-//   gulp.src('./src/image/*')
-//     .pipe(plumber())
-//     .pipe(gulp.dest('./web/static/image'));
-// });
-// gulp.task('copy-svg', function(){
-//   gulp.src('./src/svg/*')
-//     .pipe(plumber())
-//     .pipe(gulp.dest('./web/static/svg'));
-// })
-
-
 // 合并，压缩文件
 gulp.task('script', function(){
   gulp.src('./src/script/**/*.js')
@@ -138,16 +103,29 @@ gulp.task('script', function(){
     .pipe(gulp.dest(app.devPath + 'static/js'))
 });
 
+// 压缩图片
+gulp.task('copy-image', function() {
+  gulp.src('./src/image/*')
+    .pipe(plumber())
+    .pipe(imagemin({
+            optimizationLevel: 5, //类型：Number  默认：3  取值范围：0-7（优化等级）
+            progressive: true, //类型：Boolean 默认：false 无损压缩jpg图片
+            interlaced: true, //类型：Boolean 默认：false 隔行扫描gif进行渲染
+            multipass: true //类型：Boolean 默认：false 多次优化svg直到完全优化
+        }))
+    .pipe(gulp.dest(app.devPath + 'static/image'));
+});
+
 gulp.task('data',function(){
     gulp.src('./src/data/*.json')
     .pipe(plumber())
-    .pipe(gulp.dest('./build/data'))
+    .pipe(gulp.dest(app.devPath + 'data'))
 });
 
 gulp.task('template', function(){
   gulp.src('./src/view/**/*.html')
     .pipe(plumber())
-    .pipe(gulp.dest('./build/view'));
+    .pipe(gulp.dest(app.devPath + 'view'));
 });
 
 gulp.task('clean:app', function(cb) {
@@ -173,10 +151,11 @@ gulp.task('serve', function() {
     connect.server({
         root: [app.devPath],
         livereload: true,
-        port: 8086
+        port: 8087
     });
-    open("http://localhost:8086")
+    open("http://localhost:8087")
 })
+
 gulp.task('dist', [
   'clean:app',
   'lint',
@@ -186,7 +165,7 @@ gulp.task('dist', [
   'script',
   'copy-bundle',
   // 'copy-other',
-  // 'copy-image',
+  'copy-image',
   // 'copy-svg',
   // 'copy-font',
   'copy-js-map',
